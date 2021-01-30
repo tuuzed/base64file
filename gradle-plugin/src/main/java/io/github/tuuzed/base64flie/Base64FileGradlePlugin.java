@@ -1,4 +1,4 @@
-package base64file.gradle.plugin;
+package io.github.tuuzed.base64flie;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;

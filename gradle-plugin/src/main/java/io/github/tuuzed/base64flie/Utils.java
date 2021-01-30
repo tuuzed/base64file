@@ -1,31 +1,22 @@
-package base64file;
+package io.github.tuuzed.base64flie;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-public final class Base64FileUtils {
+final class Utils {
 
-
-    private static final String CHARSET = "ISO_8859_1";
-
-    @NotNull
-    public static byte[] decode(@NotNull String[] base64) throws IOException {
-        return decode(base64, false);
-    }
+    private static final Charset CHARSET = Charset.forName("ISO_8859_1");
 
     @NotNull
-    public static byte[] decode(@NotNull String[] base64, boolean unzip) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        for (String s : base64) {
-            sb.append(s);
-        }
-        String str = sb.toString();
-        byte[] data = Base64.getDecoder().decode(str.getBytes(CHARSET));
+    public static byte[] decode(@NotNull String base64, boolean unzip) throws IOException {
+        byte[] data = Base64.getDecoder().decode(base64.getBytes(CHARSET));
         if (unzip) {
             data = unzip(data);
         }
@@ -33,18 +24,8 @@ public final class Base64FileUtils {
     }
 
     @NotNull
-    public static String[] encode(@NotNull File file) throws IOException {
-        return encode(file, false);
-    }
-
-    @NotNull
     public static String[] encode(@NotNull File file, boolean zip) throws IOException {
         return encode(readBytes(file), zip);
-    }
-
-    @NotNull
-    public static String[] encode(@NotNull byte[] data) throws IOException {
-        return encode(data, false);
     }
 
     @NotNull
@@ -98,25 +79,15 @@ public final class Base64FileUtils {
 
     @NotNull
     public static byte[] readBytes(@NotNull File file) throws IOException {
-        byte[] bytes = new byte[(int) file.length()];
-        FileInputStream fileInputStream = new FileInputStream(file);
-        DataInputStream dis = new DataInputStream(fileInputStream);
-        try {
-            dis.readFully(bytes);
-            InputStream temp = dis;
-            dis = null;
-            temp.close();
-        } finally {
-            if (dis != null) {
-                try {
-                    dis.close();
-                } catch (IOException e) {
-                    // ignore
-                }
-            }
+        FileInputStream fis = new FileInputStream(file);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        int len;
+        byte[] buf = new byte[256];
+        while ((len = fis.read(buf)) != -1) {
+            bos.write(buf, 0, len);
         }
-
-        return bytes;
+        fis.close();
+        return bos.toByteArray();
     }
 
 }
