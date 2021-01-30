@@ -25,23 +25,22 @@ final class Utils {
 
     @NotNull
     public static String[] encode(@NotNull File file, boolean zip) throws IOException {
-        return encode(readBytes(file), zip);
+        return encode(readBytes(file), zip, 65534);
     }
 
     @NotNull
-    public static String[] encode(@NotNull byte[] data, boolean zip) throws IOException {
+    public static String[] encode(@NotNull byte[] data, boolean zip, int chunk) throws IOException {
         if (zip) {
             data = zip(data);
         }
         final String base64 = new String(Base64.getEncoder().encode(data), CHARSET);
         final List<String> list = new ArrayList<>();
-        final int chunkSize = 65534;
-        StringBuilder tmp = new StringBuilder(chunkSize);
+        StringBuilder tmp = new StringBuilder(chunk);
         for (int i = 1; i <= base64.length(); i++) {
             tmp.append(base64.charAt(i - 1));
-            if (i % chunkSize == 0) {
+            if (i % chunk == 0) {
                 list.add(tmp.toString());
-                tmp = new StringBuilder(chunkSize);
+                tmp = new StringBuilder(chunk);
             }
         }
         if (tmp.length() != 0) {

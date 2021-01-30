@@ -10,18 +10,23 @@ public class Base64File {
     }
 
     public String from(File file, boolean zip) throws IOException {
-        String[] array = Utils.encode(file, zip);
-        return from(array);
+        return from(Utils.encode(file, zip));
     }
 
     private String from(String[] array) {
         StringBuilder sb = new StringBuilder();
-        sb.append("new java.lang.StringBuilder()");
+        sb.append("new java.lang.String[]{\n");
+        boolean first = true;
         for (String it : array) {
-            sb.append("\n");
-            sb.append(".append(\"").append(it).append("\")");
+            if (!first) {
+                sb.append(",\n");
+            }
+            sb.append("\"");
+            sb.append(it);
+            sb.append("\"");
+            first = false;
         }
-        sb.append("\n.toString()");
+        sb.append("\n}");
         return sb.toString();
     }
 

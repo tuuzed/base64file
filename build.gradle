@@ -3,7 +3,7 @@ plugins {
 }
 
 group "io.github.tuuzed.base64flie"
-version "0.0.4"
+version "0.0.6"
 
 repositories {
     maven { url "https://dl.bintray.com/tuuzed/maven" }

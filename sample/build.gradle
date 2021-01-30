@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "io.github.tuuzed.base64flie:gradle-plugin:0.0.4"
+        classpath "io.github.tuuzed.base64flie:gradle-plugin:0.0.6"
     }
 }
 
