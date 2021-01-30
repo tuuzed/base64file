@@ -22,14 +22,14 @@ public class Base64File {
         boolean first = true;
         for (String it : array) {
             if (!first) {
-                sb.append(",");
+                sb.append(",\n");
             }
             sb.append("\"");
             sb.append(it);
             sb.append("\"");
             first = false;
         }
-        sb.append("}");
+        sb.append("\n}");
         return sb.toString();
     }
 }
