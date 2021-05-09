@@ -1,3 +1,4 @@
+一个将文件转成Base64字符串数组的Gradle插件
 
 [![](https://jitpack.io/v/tuuzed/base64file-gradle-plugin.svg)](https://jitpack.io/#tuuzed/base64file-gradle-plugin)
 
