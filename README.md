@@ -1,3 +1,7 @@
+
+[![](https://jitpack.io/v/tuuzed/base64file-gradle-plugin.svg)](https://jitpack.io/#tuuzed/base64file-gradle-plugin)
+
+```groovy
 buildscript {
     repositories {
         maven { url 'https://jitpack.io' }
@@ -12,3 +16,5 @@ apply plugin: 'com.github.tuuzed.base64flie'
 task test() {
     System.err.println(Base64File.from(project.file("build.gradle")))
 }
+
+```
