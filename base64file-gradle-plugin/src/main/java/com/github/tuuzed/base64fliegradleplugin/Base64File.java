@@ -1,4 +1,4 @@
-package io.github.tuuzed.base64flie;
+package com.github.tuuzed.base64fliegradleplugin;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package io.github.tuuzed.base64flie;
+package com.github.tuuzed.base64fliegradleplugin;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,8 +15,12 @@ final class Utils {
     private static final Charset CHARSET = Charset.forName("ISO_8859_1");
 
     @NotNull
-    public static byte[] decode(@NotNull String base64, boolean unzip) throws IOException {
-        byte[] data = Base64.getDecoder().decode(base64.getBytes(CHARSET));
+    public static byte[] decode(@NotNull String[] base64, boolean unzip) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        for (String it : base64) {
+            sb.append(it);
+        }
+        byte[] data = Base64.getDecoder().decode(sb.toString().getBytes(CHARSET));
         if (unzip) {
             data = unzip(data);
         }
@@ -63,17 +67,18 @@ final class Utils {
     }
 
     @NotNull
-    private static byte[] unzip(@NotNull byte[] bytes) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ByteArrayInputStream in = new ByteArrayInputStream(bytes);
-        GZIPInputStream unzip = new GZIPInputStream(in);
-        byte[] buffer = new byte[256];
-        int n;
-        while ((n = unzip.read(buffer)) >= 0) {
-            out.write(buffer, 0, n);
+    private static byte[] unzip(@NotNull byte[] data) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        GZIPInputStream unzip = new GZIPInputStream(
+            new ByteArrayInputStream(data)
+        );
+        int len;
+        byte[] buf = new byte[256];
+        while ((len = unzip.read(buf)) >= 0) {
+            buffer.write(buf, 0, len);
         }
         unzip.close();
-        return out.toByteArray();
+        return buffer.toByteArray();
     }
 
     @NotNull
@@ -87,6 +92,15 @@ final class Utils {
         }
         fis.close();
         return bos.toByteArray();
+    }
+
+    public static void main(String[] args) throws IOException {
+        byte[] data = "Hello".getBytes();
+        String zip = new String(Base64.getEncoder().encode(zip(data)));
+        System.out.println("zip: " + zip);
+
+        String unzip = new String(unzip(Base64.getDecoder().decode(zip)));
+        System.out.println("unzip: " + unzip);
     }
 
 }

@@ -1,4 +1,4 @@
 rootProject.name = 'base64file-gradle-plugin'
-include 'gradle-plugin'
+include 'base64file-gradle-plugin'
 include 'sample'
 
